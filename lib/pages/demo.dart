@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:tray_manager/tray_manager.dart';
 import 'package:window_manager/window_manager.dart';
@@ -38,31 +37,17 @@ class DemoPageState extends State<DemoPage> with TrayListener {
           ),
           MenuItem.separator(),
           MenuItem(
-            label: 'Cut',
-          ),
+              label: '退出',
+              onClick: (menuItem) {
+                exit(0);
+                //SystemNavigator.pop();
+              }),
         ],
       );
       print("init menu...");
       await trayManager.setContextMenu(_menu);
       contextMenuInit = true;
     }
-  }
-
-  @override
-  void dispose() {
-    trayManager.removeListener(this);
-    super.dispose();
-  }
-
-  void _handleSetIcon() async {
-    String iconPath =
-        Platform.isWindows ? 'assets/app_icon.ico' : 'assets/app_icon.png';
-    await trayManager.setIcon(iconPath);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Text("data");
   }
 
   @override
@@ -99,8 +84,22 @@ class DemoPageState extends State<DemoPage> with TrayListener {
   @override
   void onTrayMenuItemClick(MenuItem menuItem) {
     print(menuItem.toJson());
-    BotToast.showText(
-      text: '${menuItem.toJson()}',
-    );
+  }
+
+  @override
+  void dispose() {
+    trayManager.removeListener(this);
+    super.dispose();
+  }
+
+  void _handleSetIcon() async {
+    String iconPath =
+        Platform.isWindows ? 'assets/app_icon.ico' : 'assets/app_icon.png';
+    await trayManager.setIcon(iconPath);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Text("data");
   }
 }
